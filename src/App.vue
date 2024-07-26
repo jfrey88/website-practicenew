@@ -5,13 +5,16 @@
       <template v-slot:prepend>
         <v-app-bar-nav-icon @click="drawerOpened = !drawerOpened"></v-app-bar-nav-icon>
         
-        <v-app-bar-title>Le monde vu par Jeff</v-app-bar-title>
-        <v-spacer></v-spacer>
-        <v-btn v-for="categorie in arrayCategories" :key="categorie"
-          :to="{ name: 'categorie',params: { id: categorie } }"
-          :color="couleursCategorie(categorie)"
+        <v-app-bar-title width="200px">Le monde vu par Jeff</v-app-bar-title>
+        
+        
+        <v-btn v-for="(topic,index) in topicStore.topics" :key="index"
+       
+          :to="{ name: 'categorie',params: { id: topic } }"
+          
+          :color="topicStore.getTopicColor(index+1)"
           variant="flat"
-        >{{categorie}}</v-btn> 
+        >{{topic}}</v-btn> 
         
         
       </template>
@@ -38,25 +41,24 @@
   import { onMounted, ref } from 'vue';
   import { RouterView } from 'vue-router';
   import AppHeader from '@/components/Layout/AppHeader.vue';
-  import {categories } from '@/models/categories.js';
+  import { useTopicStore } from '@/stores/topic';
 
 
 
   const drawerOpened = ref(false);
 
    // on importe la liste des categorie
-   const arrayCategories = ref([]);    
-   const couleursCategorie=(valeur)=>{
-    const tabCol=["blue-grey-lighten-4","red-lighten-4","pink-lighten-4","purple-lighten-4","indigo-lighten-4","blue-lighten-4","cyan-lighten-4","teal-lighten-4","green-lighten-4","light-green-lighten-4","lime-lighten-4","yellow-lighten-4","orange-lighten-4","brown-lighten-4"];
-    const found=arrayCategories.value.indexOf(valeur)
-    return tabCol[found!=-1 ? found+1 : 0]; 
-  }
+   const topicStore = useTopicStore();
+
+  const fetchTopicsPosts = async () =>{
+    await topicStore.fetchTopics();
+  } 
 
   onMounted(async ()=>{
-    arrayCategories.value = await categories();
+    await fetchTopicsPosts();
     
   })
-  console.log("appvue ",arrayCategories);
+  
 
     
 </script>

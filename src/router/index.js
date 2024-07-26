@@ -25,11 +25,7 @@ const router=createRouter({
             name:"categorie",
             component: ()=> import("../views/CategorieView.vue")
         },
-        {
-            path:"/CategoriePostView/:id/:cat",
-            name:"CategoriePostView",
-            component: ()=> import("../views/CategoriePostView.vue")
-        }
+        
 
     ]
 });

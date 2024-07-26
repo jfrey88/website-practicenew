@@ -7,7 +7,7 @@
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="comment.name"
+              v-model="commentaire.name"
               bg-color="purple-lighten-5"
               variant="solo"
               :counter="10"
@@ -21,7 +21,7 @@
   
           <v-col cols="12" md="6" >
             <v-text-field
-             v-model="comment.email"
+             v-model="commentaire.email"
               prepend-inner-icon="mdi-email"
               bg-color="purple-lighten-5"
               variant="solo"
@@ -37,7 +37,7 @@
         <v-row>
           <v-col cols="12" md="12">
             <v-textarea
-             v-model="comment.body"
+             v-model="commentaire.body"
               prepend-inner-icon="mdi-comment"
               bg-color="purple-lighten-5"
               variant="solo"
@@ -64,8 +64,8 @@
             <v-btn 
               class="mt-2" 
               color="purple-lighten-4"
-              @click="clear"
-            >Clear</v-btn>
+             @click="clear()"
+            >clear</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -77,28 +77,36 @@
     import { ref } from 'vue';
   
     
-    const comment = ref({name:"",
+    const commentaire = ref({name:"",
     email:"",
   body:""});
 
-  import {addCommentForPost } from '../../models/comments.js';
-  import {clearComment } from '../../models/comments.js';
+
+ // import {clearComment } from '../../models/comments.js';
   import {useRoute } from 'vue-router';
+  import { useCommentStore } from '@/stores/comment'; 
+
+ // import { onMounted } from 'vue';
+  //const posts = ref([]);
+
+ // import { useCommentStore } from '@/stores/comment';  
+
 
   const route = useRoute();
-
-
   const id=route.params.id;
+  // console.log('------------------ AppFormComment.vue --> id -----------------------');
+  // console.log(id);
 
+  const comment = useCommentStore();
     const onSubmit=()=>{
-      addCommentForPost(id,comment.value);
-
+      comment.addCommentForPost(id,commentaire.value);
+      
       
     }
-    const clear=()=>{
-      clearComment(id);
-      console.log('je passe dans clear');
-    }
+    // const clear=()=>{
+    //   clearComment(id);
+
+    // }
     const rulesLastname = ref([
     value => {
       if (value) 
@@ -160,7 +168,14 @@
     }
   ]);
 
+    const clear=()=>{
+      commentaire.value.body="";
+      commentaire.value.email="";
+      commentaire.value.name="";
 
+
+
+    }
   
    
     

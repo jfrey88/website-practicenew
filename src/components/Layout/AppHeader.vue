@@ -7,6 +7,7 @@
             <li>
                 <Router-link to="/about">About</Router-link>
             </li>
+
         </ul>
 
     </div>
