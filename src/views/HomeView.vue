@@ -46,7 +46,7 @@
     arrayAllPosts.value = await posts();
 
     const addTopicField=()=>{
-        console.log('je suis bien ici');
+        console.log('je passe dans addTopicField');
         const keys=Object.keys(arrayAllPosts.value)
         keys.forEach((topic)=>{
             const tabTopicEnCours=arrayAllPosts.value[topic];
@@ -58,7 +58,7 @@
             })
            
         })
-        console.log('je suis bien ici');
+        
         arrayPosts.value=shuffleArray(arrayPosts.value);
         
     }
@@ -82,6 +82,7 @@
 
 
     onMounted(async ()=>{
+        console.log("-------------- je passe dans onMounted ");
         arrayCategories.value = await categories();
         addTopicField();
        
